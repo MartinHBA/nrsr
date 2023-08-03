@@ -116,7 +116,7 @@ func getParliamentVotes(voteID string) (map[string][]string, error) {
 	url := fmt.Sprintf("https://www.nrsr.sk/web/Default.aspx?sid=schodze/hlasovanie/hlasovanie&ID=%s", voteID)
 	err := c.Visit(url)
 	if err != nil {
-		return nil, fmt.Errorf("Could not visit page: %s", err)
+		return nil, fmt.Errorf("could not visit page: %s", err)
 	}
 
 	fmt.Println(votes)
