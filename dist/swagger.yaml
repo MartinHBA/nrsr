@@ -22,23 +22,23 @@ paths:
                   description: The vote ID to be retrieved.
               required:
                 - id
-     responses:
-  '200':
-    description: Successful response containing the parliament votes.
-    content:
-      application/json:
-        schema:
-          type: object
-          properties:
-            votes:
-              type: array
-              items:
+      responses: # Corrected indentation here
+        '200':
+          description: Successful response containing the parliament votes.
+          content:
+            application/json:
+              schema:
                 type: object
                 properties:
-                  name:
-                    type: string
-                  vote:
-                    type: string
+                  votes:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        vote:
+                          type: string
         '400':
           description: Bad Request - the request was malformed.
         '429':
