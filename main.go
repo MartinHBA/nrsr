@@ -83,7 +83,7 @@ func postHandler(il *ipLimiter) http.HandlerFunc {
 func main() {
 	il := &ipLimiter{ips: make(map[string]int), lastClean: time.Now()}
 	http.HandleFunc("/vote", postHandler(il))
-
+	http.Handle("/docs/", http.StripPrefix("/docs", http.FileServer(http.Dir("./dist"))))
 	fmt.Println("Server is listening on port 8080...")
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }

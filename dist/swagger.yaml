@@ -1,0 +1,37 @@
+openapi: '3.0.0'
+info:
+  title: Parliament Votes API
+  version: '1.0'
+  description: An API for retrieving parliament votes based on a vote ID.
+servers:
+  - url: 'https://nrsr.azurewebsites.net'
+paths:
+  /vote:
+    post:
+      summary: Retrieve parliament votes
+      description: Sends a vote ID and returns the corresponding parliament votes as JSON.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: The vote ID to be retrieved.
+              required:
+                - id
+      responses:
+        '200':
+          description: Successful response containing the parliament votes.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  # You can define the structure of the JSON response here, as needed.
+        '400':
+          description: Bad Request - the request was malformed.
+        '429':
+          description: Too Many Requests - request limit exceeded for the client IP.
