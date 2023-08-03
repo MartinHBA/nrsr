@@ -60,6 +60,7 @@ func postHandler(il *ipLimiter) http.HandlerFunc {
 	}
 }
 
+// func main starts here
 func main() {
 	il := &ipLimiter{ips: make(map[string]int), lastClean: time.Now()}
 	http.HandleFunc("/post", postHandler(il))
