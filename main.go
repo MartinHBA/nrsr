@@ -125,6 +125,7 @@ func getParliamentVotes(voteID string) (map[string][]string, error) {
 
 /*
 $uri = "https://nrsr.azurewebsites.net/vote"
+#$uri = "http://localhost:8080/vote"
 $body = @"
 {
     "id" : "48180"
@@ -132,4 +133,6 @@ $body = @"
 "@
 
 $result = Invoke-WebRequest -Uri $uri -Method Post -Body $body -ContentType 'application/json' -UseBasicParsing
-$result*/
+$table = $result.Content | ConvertFrom-Json
+$table | ft *
+*/
