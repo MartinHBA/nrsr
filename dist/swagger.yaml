@@ -7,21 +7,16 @@ servers:
   - url: 'https://nrsr.azurewebsites.net'
 paths:
   /vote:
-    post:
+    get: # Changed from post to get
       summary: Retrieve parliament votes
       description: Sends a vote ID and returns the corresponding parliament votes as JSON.
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id:
-                  type: string
-                  description: The vote ID to be retrieved.
-              required:
-                - id
+      parameters: # Changed from requestBody to parameters
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: string
+          description: The vote ID to be retrieved.
       responses:
         '200':
           description: Successful response containing the parliament votes.

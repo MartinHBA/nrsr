@@ -43,7 +43,7 @@ func (il *ipLimiter) addIP(ip string) bool {
 	return true
 }
 
-func postHandler(il *ipLimiter) http.HandlerFunc {
+func getHandler(il *ipLimiter) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		ip, _, _ := net.SplitHostPort(r.RemoteAddr)
 		if !il.addIP(ip) {
@@ -51,15 +51,13 @@ func postHandler(il *ipLimiter) http.HandlerFunc {
 			return
 		}
 
-		var request postRequest
-		decoder := json.NewDecoder(r.Body)
-		err := decoder.Decode(&request)
-		if err != nil {
+		voteID := r.URL.Query().Get("id")
+		if voteID == "" {
 			http.Error(w, "Bad Request", http.StatusBadRequest)
 			return
 		}
 
-		votes, err := getParliamentVotes(request.ID)
+		votes, err := getParliamentVotes(voteID)
 		if err != nil {
 			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 			log.Printf("Error fetching votes: %s", err)
@@ -82,7 +80,7 @@ func postHandler(il *ipLimiter) http.HandlerFunc {
 // func main starts here
 func main() {
 	il := &ipLimiter{ips: make(map[string]int), lastClean: time.Now()}
-	http.HandleFunc("/vote", postHandler(il))
+	http.HandleFunc("/vote", getHandler(il))
 	http.Handle("/docs/", http.StripPrefix("/docs", http.FileServer(http.Dir("./dist"))))
 	fmt.Println("Server is listening on port 8080...")
 	log.Fatal(http.ListenAndServe(":8080", nil))
