@@ -74,7 +74,7 @@ func postHandler(il *ipLimiter) http.HandlerFunc {
 		}
 
 		// Set content type to JSON and write the response
-		w.Header().Set("Content-Type", "application/json")
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.Write(jsonData)
 	}
 }
@@ -119,5 +119,17 @@ func getParliamentVotes(voteID string) (map[string][]string, error) {
 		return nil, fmt.Errorf("Could not visit page: %s", err)
 	}
 
+	fmt.Println(votes)
 	return votes, nil
 }
+
+/*
+$uri = "https://nrsr.azurewebsites.net/vote"
+$body = @"
+{
+    "id" : "48180"
+}
+"@
+
+$result = Invoke-WebRequest -Uri $uri -Method Post -Body $body -ContentType 'application/json' -UseBasicParsing
+$result*/
